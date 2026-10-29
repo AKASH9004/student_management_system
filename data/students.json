@@ -79,13 +79,31 @@
             ]
         },
         {
-            "code": "COUSER1234",
-            "title": "new",
+            "code": "COUSE1234",
+            "title": "Digital Business",
             "components": [
                 {
                     "id": "c1",
                     "name": "labd 10",
                     "weight": 100.0,
+                    "max_marks": 100.0
+                }
+            ]
+        },
+        {
+            "code": "EN1341",
+            "title": "Environment",
+            "components": [
+                {
+                    "id": "c1",
+                    "name": "LAB",
+                    "weight": 50.0,
+                    "max_marks": 200.0
+                },
+                {
+                    "id": "c2",
+                    "name": "A",
+                    "weight": 50.0,
                     "max_marks": 100.0
                 }
             ]
@@ -117,24 +135,6 @@
                     "name": "Final Exam",
                     "weight": 60.0,
                     "max_marks": 60.0
-                }
-            ]
-        },
-        {
-            "code": "NEW1234",
-            "title": "new course",
-            "components": [
-                {
-                    "id": "c1",
-                    "name": "LAB",
-                    "weight": 50.0,
-                    "max_marks": 200.0
-                },
-                {
-                    "id": "c2",
-                    "name": "A",
-                    "weight": 50.0,
-                    "max_marks": 100.0
                 }
             ]
         }
@@ -290,13 +290,13 @@
         },
         {
             "student_id": "S007",
-            "name": "abc",
+            "name": "Rahul",
             "age": 18,
-            "class_name": "skjk",
+            "class_name": "TE",
             "email": "jkfg@g.com",
             "enrollments": [
                 {
-                    "course_code": "COUSER1234",
+                    "course_code": "COUSE1234",
                     "scores": {
                         "c1": 100.0
                     }
