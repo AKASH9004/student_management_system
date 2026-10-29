@@ -192,7 +192,7 @@ class CoursesPage(Page):
             self.select(course.code)
 
         FormDialog(self.app, "New Course", [
-            Field("code", "Course code", hint="e.g. COMP9001"),
+            Field("code", "Course code", hint="e.g. COMP1234"),
             Field("title", "Title"),
             Field("structure", "Grade structure", hint=STRUCTURE_HINT)], submit, ok_text="Create")
 
@@ -226,7 +226,7 @@ class CoursesPage(Page):
 
         fields = [
             Field("code", "Course code", course.code,
-                hint="e.g. COMP9001"),
+                hint="e.g. COMP1234"), 
             Field("title", "Title", course.title),
         ]
 

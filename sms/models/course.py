@@ -21,7 +21,7 @@ class Course:
         """Create a course. The code is upper-cased and checked; raises ValidationError if it is not valid."""
         code = (code or "").strip().upper()
         if not _CODE_RE.match(code):
-            raise ValidationError("Course code may only contain letters, digits, '-' and '_' (e.g. COMP9001).")
+            raise ValidationError("Course code may only contain letters, digits, '-' and '_' (e.g. COMP1234).")
         self.code = code
         self.title = (title or "").strip()
         self._components: Dict[str, Component] = {}

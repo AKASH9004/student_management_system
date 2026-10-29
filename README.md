@@ -153,6 +153,8 @@ The parser also accepts semicolons or new lines. A component may optionally incl
 Quiz 1 5/20, Final Exam 50
 ```
 
+In this example, `Quiz 1` is worth 5% of the course grade and its mark is out of 20. `Final Exam` is worth 50% and, because no maximum marks value is specified, its mark is out of the default 100. The comma separates the two assessment components. Together they account for 55% of the course grade, so add components worth the remaining 45% to complete the course structure.
+
 Important rules from the code:
 
 - each component has a weight percentage
@@ -196,6 +198,7 @@ student_management_system/
 │   │   └── student.py
 │   ├── services/
 │   │   ├── course_manager.py
+│   │   ├── progress_report.py   # Builds printable student progress reports
 │   │   ├── statistics.py
 │   │   └── student_manager.py
 │   ├── storage/
@@ -209,9 +212,9 @@ student_management_system/
 │           ├── base.py
 │           ├── courses_page.py
 │           ├── dashboard_page.py
-│           └── students_page.py
+│           └── students_page.py # Student records, marks, and report export
 ├── tests/
-│   └── test_sms.py              # Unit tests for core logic
+│   └── test_sms.py              # Unit tests for core logic and reports
 ```
 
 ## Notes
@@ -219,4 +222,4 @@ student_management_system/
 - The app keeps its data in JSON, not in a database.
 - Data is saved locally to `data/students.json`.
 - The app is intentionally lightweight and uses only the Python standard library plus Tkinter.
-- The sample seed script populates several demo courses such as `COMP9001`, `COMP9123`, and `MATH1001`.
+- The sample seed script populates several demo courses such as `COMP1234`, `COMP6789`, and `MATH1001`.
