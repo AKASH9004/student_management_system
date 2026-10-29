@@ -124,6 +124,8 @@ This project is a Tkinter-based student management app that lets you:
 
 The app is designed for local desktop use and stores data in `data/students.json`.
 
+On the Students page, select a student and choose **Export Progress Report** to save a printable HTML report. It includes the overall grade and assessment completion, course-by-course standings, and each assessment's mark, weight, and weighted points. Open the saved file in a browser to print it or save it as a PDF.
+
 ## Features
 
 - Course creation with custom assessment weights
@@ -133,6 +135,7 @@ The app is designed for local desktop use and stores data in `data/students.json
 - Enrolment management per student and per course
 - Weighted mark calculation using each component's percentage and out-of value
 - Progress tracking for incomplete assessments
+- Exportable personalized student progress reports with overall results, course progress, and assessment-level marks
 - Grade conversion based on configured grade bands
 - Dashboard-style statistics for course performance and top students
 

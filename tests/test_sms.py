@@ -5,6 +5,7 @@ from pathlib import Path
 from sms.exceptions import (CourseNotFoundError, DuplicateComponentError, DuplicateCourseError,
                             DuplicateEnrollmentError, StudentNotFoundError, ValidationError)
 from sms.services.course_manager import parse_structure
+from sms.services.progress_report import render_progress_report
 from sms.services.statistics import StatisticsService
 from sms.services.student_manager import StudentManager
 from sms.storage.json_storage import JSONStorage
@@ -154,6 +155,38 @@ class StatisticsTests(BaseCase):
         self.assertEqual(stats.topper().name, "A")
         cs = stats.course_stats()[0]
         self.assertEqual((cs.enrolled, cs.marked, cs.average), (3, 3, 60.0))
+
+
+class ProgressReportTests(BaseCase):
+    def test_report_includes_overall_course_and_assessment_results(self):
+        course = self.courses.add_course(
+            "T100", "Programming & Design", parse_structure("Quiz 20/20, Final Exam 80"))
+        student = self.mgr.add_student("Ava <Lee>", 16)
+        self.mgr.enroll(student.student_id, course.code)
+        quiz, exam = course.components
+        self.mgr.set_scores(student.student_id, course.code, {quiz.component_id: 18})
+
+        report = render_progress_report(student)
+
+        self.assertIn("Ava &lt;Lee&gt;", report)
+        self.assertIn("Overall result", report)
+        self.assertIn("Assessment completion", report)
+        self.assertIn("Programming &amp; Design", report)
+        self.assertIn("18</td>", report)
+        self.assertIn("Not marked", report)
+        self.assertIn("20% assessed", report)
+        self.assertIn("Quiz", report)
+        self.assertIn("Final Exam", report)
+        self.assertIn("Grade A+", report)
+
+    def test_report_explains_empty_student_progress(self):
+        student = self.mgr.add_student("No Marks", 16)
+
+        report = render_progress_report(student)
+
+        self.assertIn("No marks yet", report)
+        self.assertIn("0/0 | 0%", report)
+        self.assertIn("No course enrolments yet", report)
 
 
 if __name__ == "__main__":

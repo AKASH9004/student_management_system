@@ -1,10 +1,12 @@
 """Students: profiles, course enrolments and mark entry."""
+import re
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import filedialog, messagebox
 from typing import Dict, Optional
 
 from sms.models.enrollment import Enrollment
 from sms.models.student import Student
+from sms.services.progress_report import render_progress_report
 from sms.ui import theme as T
 from sms.ui.pages.base import Page
 from sms.ui.utils import fmt, to_float, to_int
@@ -34,6 +36,8 @@ class StudentsPage(Page):
         """
         super().__init__(parent, app)
         actions = self.header("Students", "Profiles, course enrolments and marks")
+        self.report_btn = button(actions, "Export Progress Report", self.export_progress_report, "Secondary")
+        self.report_btn.pack(side="left", padx=(0, 8))
         button(actions, "+ Add Student", self.add_student, "Primary").pack(side="left")
 
         # Two-column body; "uniform" keeps the 3:4 width ratio stable.
@@ -184,6 +188,7 @@ class StudentsPage(Page):
         for child in self.chip_box.winfo_children():
             child.destroy()
         self.enrol_btn.configure(state="normal" if student else "disabled")
+        self.report_btn.configure(state="normal" if student else "disabled")
         if not student:
             # Empty state: no students exist or none is selected.
             self.name_var.set("No student selected")
@@ -215,6 +220,29 @@ class StudentsPage(Page):
         if not self.enrol_tree.selection() and self.enrol_tree.get_children():
             self.enrol_tree.selection_set(self.enrol_tree.get_children()[0])
         self.refresh_marks()
+
+    def export_progress_report(self) -> None:
+        """Save a printable HTML progress report for the selected student."""
+        student = self._need_student()
+        if not student:
+            return
+        safe_id = re.sub(r"[^A-Za-z0-9_-]+", "_", student.student_id).strip("_") or "student"
+        destination = filedialog.asksaveasfilename(
+            parent=self.app,
+            title="Export Student Progress Report",
+            initialfile=f"{safe_id}_progress_report.html",
+            defaultextension=".html",
+            filetypes=[("HTML report", "*.html"), ("All files", "*.*")],
+        )
+        if not destination:
+            return
+        try:
+            with open(destination, "w", encoding="utf-8") as report_file:
+                report_file.write(render_progress_report(student))
+        except OSError as exc:
+            messagebox.showerror("Export failed", f"Could not save the report:\n{exc}", parent=self.app)
+            return
+        messagebox.showinfo("Report exported", f"Progress report saved to:\n{destination}", parent=self.app)
 
     def refresh_marks(self) -> None:
         """Update the marks table and its footer for the selected enrolment."""
