@@ -1,0 +1,307 @@
+{
+    "courses": [
+        {
+            "code": "COMP9001",
+            "title": "Programming Fundamentals",
+            "components": [
+                {
+                    "id": "c1",
+                    "name": "Lab",
+                    "weight": 10.0,
+                    "max_marks": 10.0
+                },
+                {
+                    "id": "c2",
+                    "name": "A1",
+                    "weight": 7.5,
+                    "max_marks": 10.0
+                },
+                {
+                    "id": "c3",
+                    "name": "A2",
+                    "weight": 7.5,
+                    "max_marks": 10.0
+                },
+                {
+                    "id": "c4",
+                    "name": "Project",
+                    "weight": 25.0,
+                    "max_marks": 25.0
+                },
+                {
+                    "id": "c5",
+                    "name": "Final Exam",
+                    "weight": 50.0,
+                    "max_marks": 50.0
+                }
+            ]
+        },
+        {
+            "code": "COMP9123",
+            "title": "Data Structures",
+            "components": [
+                {
+                    "id": "c1",
+                    "name": "Q1",
+                    "weight": 5.0,
+                    "max_marks": 10.0
+                },
+                {
+                    "id": "c2",
+                    "name": "Q2",
+                    "weight": 5.0,
+                    "max_marks": 10.0
+                },
+                {
+                    "id": "c3",
+                    "name": "A1",
+                    "weight": 15.0,
+                    "max_marks": 15.0
+                },
+                {
+                    "id": "c4",
+                    "name": "A2",
+                    "weight": 15.0,
+                    "max_marks": 15.0
+                },
+                {
+                    "id": "c5",
+                    "name": "Midterm",
+                    "weight": 20.0,
+                    "max_marks": 40.0
+                },
+                {
+                    "id": "c6",
+                    "name": "Final Exam",
+                    "weight": 40.0,
+                    "max_marks": 40.0
+                }
+            ]
+        },
+        {
+            "code": "COUSER1234",
+            "title": "new",
+            "components": [
+                {
+                    "id": "c1",
+                    "name": "labd 10",
+                    "weight": 100.0,
+                    "max_marks": 100.0
+                }
+            ]
+        },
+        {
+            "code": "MATH1001",
+            "title": "Calculus I",
+            "components": [
+                {
+                    "id": "c1",
+                    "name": "Quiz 1",
+                    "weight": 10.0,
+                    "max_marks": 20.0
+                },
+                {
+                    "id": "c2",
+                    "name": "Quiz 2",
+                    "weight": 10.0,
+                    "max_marks": 20.0
+                },
+                {
+                    "id": "c3",
+                    "name": "Assignment",
+                    "weight": 20.0,
+                    "max_marks": 20.0
+                },
+                {
+                    "id": "c4",
+                    "name": "Final Exam",
+                    "weight": 60.0,
+                    "max_marks": 60.0
+                }
+            ]
+        },
+        {
+            "code": "NEW1234",
+            "title": "new course",
+            "components": [
+                {
+                    "id": "c1",
+                    "name": "LAB",
+                    "weight": 50.0,
+                    "max_marks": 200.0
+                },
+                {
+                    "id": "c2",
+                    "name": "A",
+                    "weight": 50.0,
+                    "max_marks": 100.0
+                }
+            ]
+        }
+    ],
+    "students": [
+        {
+            "student_id": "S001",
+            "name": "Ava Thompson",
+            "age": 19,
+            "class_name": "CS-1",
+            "email": "ava@example.com",
+            "enrollments": [
+                {
+                    "course_code": "COMP9001",
+                    "scores": {
+                        "c1": 9.0,
+                        "c2": 7.0,
+                        "c3": 6.5,
+                        "c4": 22.0,
+                        "c5": 44.0
+                    }
+                },
+                {
+                    "course_code": "COMP9123",
+                    "scores": {
+                        "c1": 8.0,
+                        "c2": 9.0,
+                        "c3": 13.0,
+                        "c4": 12.0,
+                        "c5": 32.0,
+                        "c6": 33.0
+                    }
+                }
+            ]
+        },
+        {
+            "student_id": "S002",
+            "name": "Liam Nguyen",
+            "age": 20,
+            "class_name": "CS-1",
+            "email": "liam@example.com",
+            "enrollments": [
+                {
+                    "course_code": "COMP9001",
+                    "scores": {
+                        "c1": 7.0,
+                        "c2": 5.0,
+                        "c3": 6.0,
+                        "c4": 18.0,
+                        "c5": 36.0
+                    }
+                },
+                {
+                    "course_code": "MATH1001",
+                    "scores": {
+                        "c1": 14.0,
+                        "c2": 12.0,
+                        "c3": 15.0,
+                        "c4": 40.0
+                    }
+                }
+            ]
+        },
+        {
+            "student_id": "S003",
+            "name": "Sofia Patel",
+            "age": 19,
+            "class_name": "CS-2",
+            "email": "sofia@example.com",
+            "enrollments": [
+                {
+                    "course_code": "COMP9001",
+                    "scores": {
+                        "c1": 8.0,
+                        "c2": 6.0,
+                        "c3": 5.0,
+                        "c4": 20.0,
+                        "c5": 40.0
+                    }
+                },
+                {
+                    "course_code": "COMP9123",
+                    "scores": {
+                        "c1": 6.0,
+                        "c2": 8.0,
+                        "c3": 10.0,
+                        "c4": 11.0
+                    }
+                }
+            ]
+        },
+        {
+            "student_id": "S004",
+            "name": "Noah Brown",
+            "age": 21,
+            "class_name": "CS-2",
+            "email": "noah@example.com",
+            "enrollments": [
+                {
+                    "course_code": "COMP9123",
+                    "scores": {
+                        "c1": 10.0,
+                        "c2": 9.0,
+                        "c3": 14.0,
+                        "c4": 14.0,
+                        "c5": 38.0,
+                        "c6": 38.0
+                    }
+                },
+                {
+                    "course_code": "MATH1001",
+                    "scores": {
+                        "c1": 19.0,
+                        "c2": 18.0,
+                        "c3": 18.0,
+                        "c4": 55.0
+                    }
+                }
+            ]
+        },
+        {
+            "student_id": "S005",
+            "name": "Mia Wilsons",
+            "age": 20,
+            "class_name": "SE-1",
+            "email": "mia@example.com",
+            "enrollments": [
+                {
+                    "course_code": "COMP9001",
+                    "scores": {
+                        "c1": 8.0,
+                        "c2": 6.0,
+                        "c3": 7.0,
+                        "c4": 20.0
+                    }
+                },
+                {
+                    "course_code": "MATH1001",
+                    "scores": {
+                        "c1": 16.0,
+                        "c2": 15.0
+                    }
+                }
+            ]
+        },
+        {
+            "student_id": "S006",
+            "name": "Ethan Clarke",
+            "age": 22,
+            "class_name": "SE-1",
+            "email": "",
+            "enrollments": []
+        },
+        {
+            "student_id": "S007",
+            "name": "abc",
+            "age": 18,
+            "class_name": "skjk",
+            "email": "jkfg@g.com",
+            "enrollments": [
+                {
+                    "course_code": "COUSER1234",
+                    "scores": {
+                        "c1": 100.0
+                    }
+                }
+            ]
+        }
+    ]
+}
