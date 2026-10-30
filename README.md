@@ -137,6 +137,23 @@ The app is designed for local desktop use and stores data in `data/students.json
 
 On the Students page, select a student and choose **Export Progress Report** to save a printable HTML report. It includes the overall grade and assessment completion, course-by-course standings, and each assessment's mark, weight, and weighted points. Open the saved file in a browser to print it or save it as a PDF.
 
+## How to Use the App
+
+1. **Start on the Dashboard.** It shows student and course totals, grade statistics, course results, and top students.
+2. **Create a course.** Open **Courses** and select **+ New Course**. Enter a course code and title. You can leave the optional grade-structure field blank and add components afterward, or enter them as `Name weight`, separated by commas. For example:
+
+   ```text
+   Lab 10, A1 20, Project 30, Exam 40
+   ```
+
+   This creates a lab worth 10% of the course, Assignment 1 worth 20%, a project worth 30%, and an exam worth 40%. The weights must total **100%** before students can enrol.
+3. **Add assessment components, if needed.** Select the course, then use **+ Add** in its Grade structure panel. Enter the component name (for example, `Lab` or `A1`), its course weight, and the maximum mark. For a lab worth 10% and marked out of 20, enter `Lab`, `10`, and `20` in those fields. Use **Edit** or **Remove** to manage existing components.
+4. **Add a student.** Open **Students** and choose **+ Add Student**. Enter the student's name; age, class, and email can also be provided.
+5. **Enrol the student.** Select the student, then choose **+ Enrol in Course** in the student's Courses panel. The course must have a complete 100% grade structure. Alternatively, select a course on the Courses page and use **+ Enrol Student**.
+6. **Enter marks.** On the Students page, select the student and their course, then choose **Enter / Edit Marks**. Enter each raw mark up to its configured maximum. Leave a field blank if that assessment has not been marked yet.
+7. **Save your work.** Choose **Save** in the sidebar, or use **Ctrl+S**. The app also asks whether to save unsaved changes when you exit. Data is stored locally in `data/students.json`.
+8. **Export a progress report.** Select a student and choose **Export Progress Report**. Save the HTML file, then open it in a browser to print it or save it as a PDF.
+
 ## Features
 
 - Course creation with custom assessment weights
