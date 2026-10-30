@@ -136,6 +136,20 @@ class StudentManager:
             if student.is_enrolled(course_code):
                 student.get_enrollment(course_code).remove_component(component_id)
 
+    def rescale_component_scores(self, course_code: str, component_id: str,
+                                 old_max_marks: float, new_max_marks: float) -> None:
+        """Preserve each recorded percentage when a component's maximum marks changes."""
+        course_code = course_code.strip().upper()
+        for student in self.list_students():
+            if not student.is_enrolled(course_code):
+                continue
+            enrollment = student.get_enrollment(course_code)
+            score = enrollment.score(component_id)
+            if score is not None:
+                bounded_score = min(max(score, 0.0), old_max_marks)
+                scaled_score = min(bounded_score / old_max_marks * new_max_marks, new_max_marks)
+                enrollment.set_scores({component_id: scaled_score})
+
     def set_scores(self, student_id: str, course_code: str,
                    scores: Dict[str, Optional[float]]) -> Enrollment:
         """Record marks for a student in a course.

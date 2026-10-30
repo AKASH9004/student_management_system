@@ -110,6 +110,31 @@ class StudentTests(BaseCase):
         self.mgr.set_scores(s.student_id, "T100", {lab.component_id: None})
         self.assertIsNone(e.score(lab.component_id))
 
+    def test_changing_max_marks_preserves_existing_percentages(self):
+        course = self.courses.add_course("T100", "", parse_structure("Exam 100/100"))
+        student = self.mgr.add_student("Ava", 17)
+        enrollment = self.mgr.enroll(student.student_id, course.code)
+        another_student = self.mgr.add_student("Ben", 17)
+        another_enrollment = self.mgr.enroll(another_student.student_id, course.code)
+        exam = course.components[0]
+        self.mgr.set_scores(student.student_id, course.code, {exam.component_id: 100})
+        self.mgr.set_scores(another_student.student_id, course.code, {exam.component_id: 75})
+
+        self.courses.update_component(course.code, exam.component_id, "Exam", 100, 50)
+
+        self.assertEqual(exam.max_marks, 50)
+        self.assertEqual(enrollment.score(exam.component_id), 50)
+        self.assertEqual(enrollment.standing, 100)
+        self.assertEqual(another_enrollment.score(exam.component_id), 37.5)
+        self.assertEqual(another_enrollment.standing, 75)
+
+        self.mgr.save()
+        reloaded = StudentManager(JSONStorage(self.path))
+        reloaded.load()
+        saved_enrollment = reloaded.get_student(student.student_id).get_enrollment(course.code)
+        self.assertEqual(saved_enrollment.score(exam.component_id), 50)
+        self.assertEqual(saved_enrollment.standing, 100)
+
     def test_component_removal_discards_marks(self):
         course = self.make_course()
         s = self.mgr.add_student("Eli", 18)

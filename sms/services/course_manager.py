@@ -181,7 +181,13 @@ class CourseManager:
     def update_component(self, code: str, component_id: str, name: str, weight: float,
                          max_marks: float = DEFAULT_MAX_MARKS) -> Component:
         """Change the name, weight and maximum marks of an existing component."""
-        return self.get_course(code).update_component(component_id, name, weight, max_marks)
+        course = self.get_course(code)
+        old_max_marks = course.get_component(component_id).max_marks
+        component = course.update_component(component_id, name, weight, max_marks)
+        if self._student_manager is not None:
+            self._student_manager.rescale_component_scores(
+                course.code, component_id, old_max_marks, component.max_marks)
+        return component
 
     def remove_component(self, code: str, component_id: str) -> None:
         """Remove the component ``component_id`` from the course ``code``."""
