@@ -2,13 +2,29 @@
 
 A Python desktop application for managing students, courses, enrolments, marks, and grade calculations in a university or school.
 
+[GitHub repository](https://github.com/AKASH9004/student_management_system)
+
 ## Getting Started
 
 Follow these steps to set up and run the project on your machine.
+This desktop application must be downloaded and run on your computer; it will not work on ed.
 
-### 1. Download the project and install Python
+### 1. Download the project, open it, and install Python
 
-Download and unzip the project, then open a terminal in the folder containing `main.py`.
+Download and unzip the project from the [GitHub repository](https://github.com/AKASH9004/student_management_system), then open a terminal in the folder containing `main.py`.
+
+If needed, navigate to the project folder:
+
+macOS / Linux:
+```bash
+cd /path/to/student_management_system
+```
+
+Windows PowerShell:
+```powershell
+cd C:\path\to\student_management_system
+```
+
 Install Python 3.8 or newer from [python.org](https://www.python.org/downloads/) if it is not already installed.
 On Windows, enable **Add Python to PATH** during installation.
 
@@ -38,6 +54,11 @@ Windows:
 py -m tkinter
 ```
 
+If `py` is not available, try:
+```powershell
+python -m tkinter
+```
+
 This should open a small test window. Close it to continue.
 
 On Ubuntu/Debian:
@@ -54,21 +75,7 @@ brew install python-tk
 
 No additional Python packages are required; there is nothing to install with `pip`.
 
-### 3. Open the project folder
-
-If you have not already opened a terminal in the folder containing `main.py`, navigate to it:
-
-macOS / Linux:
-```bash
-cd /path/to/student_management_system
-```
-
-Windows PowerShell:
-```powershell
-cd C:\path\to\student_management_system
-```
-
-### 4. Optional: create a virtual environment
+### 3. Optional: create a virtual environment
 
 macOS / Linux:
 ```bash
@@ -82,7 +89,7 @@ py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 5. Run the application
+### 4. Run the application
 
 macOS / Linux:
 ```bash
@@ -96,7 +103,7 @@ py main.py
 
 If `python3` is not available on macOS/Linux, try `python main.py`.
 
-### 6. Optional: restore sample data
+### 5. Optional: restore sample data
 
 The seed script overwrites `data/students.json`. Back up your existing data before running it:
 
