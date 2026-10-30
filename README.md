@@ -99,6 +99,10 @@ python3 main.py
 Windows:
 ```powershell
 py main.py
+
+or 
+
+python3 main.py
 ```
 
 If `python3` is not available on macOS/Linux, try `python main.py`.
