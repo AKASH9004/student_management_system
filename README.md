@@ -91,6 +91,20 @@ py -m venv .venv
 
 ### 4. Run the application
 
+Before running the command, change into the `student_management_system` folder—the folder that contains `main.py`.
+
+macOS / Linux:
+```bash
+cd /path/to/student_management_system
+```
+
+Windows PowerShell:
+```powershell
+cd C:\path\to\student_management_system
+```
+
+Replace `/path/to` or `C:\path\to` with the location where you downloaded or extracted the project. Run the application from inside `student_management_system`:
+
 macOS / Linux:
 ```bash
 python3 main.py
@@ -99,10 +113,6 @@ python3 main.py
 Windows:
 ```powershell
 py main.py
-
-or 
-
-python3 main.py
 ```
 
 If `python3` is not available on macOS/Linux, try `python main.py`.
