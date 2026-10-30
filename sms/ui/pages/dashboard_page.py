@@ -75,7 +75,7 @@ class DashboardPage(Page):
         self.cards["courses"].set(str(stats.total_courses()),
                                   f"{sum(1 for c in self.courses.list_courses() if c.is_ready)} ready for students")
         self.cards["enrol"].set(str(stats.total_enrollments()), "student-course pairs")
-        self.cards["avg"].set(f"{stats.average_percentage():.1f}%" if stats.graded else "-",
+        self.cards["avg"].set(f"{stats.average_percentage():.2f}%" if stats.graded else "-",
                               f"{stats.topper().name} leads" if stats.topper() else "no marks yet")
         self.cards["pass"].set(f"{stats.pass_rate():.0f}%" if stats.graded else "-",
                                f"{stats.pass_count()} pass / {stats.fail_count()} fail")
@@ -87,17 +87,17 @@ class DashboardPage(Page):
 
         # Course chart: only courses with marks; each bar is coloured by the grade band of its average.
         cstats = [c for c in stats.course_stats() if c.marked]
-        self.course_chart.set_data([(c.code, c.average) for c in cstats], max_value=100, fmt="{:.1f}%",
+        self.course_chart.set_data([(c.code, c.average) for c in cstats], max_value=100, fmt="{:.2f}%",
                                    colors=[T.GRADE_COLORS[_band(c.average)] for c in cstats])
 
         # Top-students table: rank, name, result and grade.
         fill_tree(self.top_tree, [
-            (s.student_id, (i, s.name, f"{s.percentage:.1f}%", s.grade), ())
+            (s.student_id, (i, s.name, f"{s.percentage:.2f}%", s.grade), ())
             for i, s in enumerate(stats.top_students(5), 1)])
         # Course overview table: one row per course.
         fill_tree(self.course_tree, [
             (c.code, (c.code, c.title or "-", c.enrolled, c.marked,
-                      f"{c.average:.1f}%" if c.marked else "-", f"{c.pass_rate:.0f}%" if c.marked else "-"), ())
+                      f"{c.average:.2f}%" if c.marked else "-", f"{c.pass_rate:.0f}%" if c.marked else "-"), ())
             for c in stats.course_stats()])
 
 

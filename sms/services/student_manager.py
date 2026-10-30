@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional
 
-from sms.exceptions import DuplicateStudentError, StudentNotFoundError
+from sms.exceptions import DuplicateStudentError, StorageError, StudentNotFoundError
 from sms.models.enrollment import Enrollment
 from sms.models.student import Student
 from sms.services.course_manager import CourseManager
@@ -30,6 +30,7 @@ class StudentManager:
         self.courses._student_manager = self
         # Maps student ID (e.g. "S001") -> Student object.
         self._students: Dict[str, Student] = {}
+        self._load_failed = False
 
     # ---- persistence -----------------------------------------------------
     def load(self) -> int:
@@ -38,13 +39,20 @@ class StudentManager:
         Returns:
             The number of students loaded.
         """
-        courses, students = self._storage.load()
+        try:
+            courses, students = self._storage.load()
+        except StorageError:
+            self._load_failed = True
+            raise
         self.courses.set_courses(courses)
         self._students = {s.student_id: s for s in students}
+        self._load_failed = False
         return len(self._students)
 
     def save(self) -> None:
         """Write all courses and students to storage."""
+        if self._load_failed:
+            raise StorageError("Cannot save because the data file failed to load. Fix the file and reload before saving.")
         self._storage.save(self.courses.list_courses(), self._students.values())
 
     # ---- students --------------------------------------------------------

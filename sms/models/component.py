@@ -1,6 +1,7 @@
 """An assessment component of a course, e.g. 'Lab' worth 10% of the final mark."""
 from __future__ import annotations
 
+import math
 from typing import Any, Dict
 
 from sms.config import COURSE_TOTAL_WEIGHT, DEFAULT_MAX_MARKS
@@ -21,10 +22,11 @@ class Component:
         name = (name or "").strip()
         if not name:
             raise ValidationError("Component name cannot be empty.")
-        if not 0 < weight <= COURSE_TOTAL_WEIGHT:
-            raise ValidationError(f"Weight must be greater than 0 and at most {COURSE_TOTAL_WEIGHT:g}%.")
-        if max_marks <= 0:
-            raise ValidationError("'Out of' marks must be greater than 0.")
+        if not math.isfinite(weight) or not 0 < weight <= COURSE_TOTAL_WEIGHT:
+            raise ValidationError(
+                f"Weight must be a finite number greater than 0 and at most {COURSE_TOTAL_WEIGHT:g}%.")
+        if not math.isfinite(max_marks) or max_marks <= 0:
+            raise ValidationError("'Out of' marks must be a finite number greater than 0.")
         self.name = name
         self.weight = float(weight)
         self.max_marks = float(max_marks)

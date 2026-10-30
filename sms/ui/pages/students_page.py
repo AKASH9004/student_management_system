@@ -173,7 +173,7 @@ class StudentsPage(Page):
         # Each row is (item id, displayed values, tags); failing students get the "fail" tag.
         fill_tree(self.tree, [
             (s.student_id, (s.student_id, s.name, s.class_name or "-", len(s.enrollments),
-                            f"{s.percentage:.1f}%" if s.has_marks else "-", s.grade),
+                            f"{s.percentage:.2f}%" if s.has_marks else "-", s.grade),
              ("fail",) if s.has_marks and not s.has_passed else ())
             for s in students])
         # Keep something selected whenever the list is non-empty.
@@ -207,14 +207,14 @@ class StudentsPage(Page):
             chip(self.chip_box, "PASS" if student.has_passed else "FAIL",
                  T.SUCCESS if student.has_passed else T.DANGER).pack(side="right", padx=(6, 0))
             chip(self.chip_box, f"Grade {student.grade}", T.GRADE_COLORS[student.grade]).pack(side="right", padx=(6, 0))
-            chip(self.chip_box, f"{student.percentage:.1f}% overall", T.PRIMARY).pack(side="right")
+            chip(self.chip_box, f"{student.percentage:.2f}% overall", T.PRIMARY).pack(side="right")
         else:
             chip(self.chip_box, "No marks yet", T.GRADE_COLORS["N/A"]).pack(side="right")
 
         # "Marked" shows how much of the course has been assessed; "Result" is the current standing.
         fill_tree(self.enrol_tree, [
             (e.course_code, (e.course_code, e.course.title or "-", f"{e.progress:.0f}%",
-                             f"{e.standing:.1f}%" if e.has_marks else "-", e.grade),
+                             f"{e.standing:.2f}%" if e.has_marks else "-", e.grade),
              ("fail",) if e.has_marks and not e.has_passed else ())
             for e in student.enrollments])
         if not self.enrol_tree.selection() and self.enrol_tree.get_children():
@@ -267,7 +267,7 @@ class StudentsPage(Page):
         fill_tree(self.marks_tree, rows)
         status = "complete" if enrollment.is_complete else f"{enrollment.progress:.0f}% of course marked"
         self.footer_var.set(f"Earned {enrollment.earned_points:g} of {enrollment.assessed_weight:g} points "
-                            f"assessed  |  {enrollment.standing:.1f}%  |  Grade {enrollment.grade}  |  {status}")
+                            f"assessed  |  {enrollment.standing:.2f}%  |  Grade {enrollment.grade}  |  {status}")
 
     # ---- student actions ---------------------------------------------------
     def _profile_fields(self, s: Optional[Student] = None):

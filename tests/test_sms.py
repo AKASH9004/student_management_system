@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from sms.exceptions import (CourseNotFoundError, DuplicateComponentError, DuplicateCourseError,
-                            DuplicateEnrollmentError, StudentNotFoundError, ValidationError)
+                            DuplicateEnrollmentError, StorageError, StudentNotFoundError, ValidationError)
 from sms.services.course_manager import parse_structure
 from sms.services.progress_report import render_progress_report
 from sms.services.statistics import StatisticsService
@@ -68,6 +68,18 @@ class CourseTests(BaseCase):
         self.assertEqual(c.get_component(lab.component_id).max_marks, 20)
         with self.assertRaises(ValidationError):
             self.courses.update_component("COMP9001", lab.component_id, "Labs", 30)
+
+    def test_component_rejects_non_finite_numbers(self):
+        course = self.make_course()
+        lab = course.components[0]
+        for invalid in (float("nan"), float("inf")):
+            with self.subTest(value=invalid):
+                with self.assertRaises(ValidationError):
+                    self.courses.update_component(course.code, lab.component_id, lab.name, lab.weight, invalid)
+                with self.assertRaises(ValidationError):
+                    self.courses.add_component(course.code, f"Invalid {invalid}", 1, invalid)
+                with self.assertRaises(ValidationError):
+                    self.courses.add_component(course.code, f"Invalid weight {invalid}", invalid, 100)
 
 
 class StudentTests(BaseCase):
@@ -183,6 +195,20 @@ class StatisticsTests(BaseCase):
 
 
 class ProgressReportTests(BaseCase):
+    def test_displayed_percentages_match_grade_thresholds(self):
+        course = self.courses.add_course("T100", "Test", parse_structure("Exam 100"))
+        students = []
+        for name, mark in (("Ava", 89.96), ("Ben", 39.96)):
+            student = self.mgr.add_student(name, 17)
+            self.mgr.enroll(student.student_id, course.code)
+            self.mgr.set_scores(student.student_id, course.code, {course.components[0].component_id: mark})
+            students.append(student)
+
+        self.assertEqual((students[0].grade, students[0].has_passed), ("A", True))
+        self.assertEqual((students[1].grade, students[1].has_passed), ("F", False))
+        self.assertIn("89.96%", render_progress_report(students[0]))
+        self.assertIn("39.96%", render_progress_report(students[1]))
+
     def test_report_includes_overall_course_and_assessment_results(self):
         course = self.courses.add_course(
             "T100", "Programming & Design", parse_structure("Quiz 20/20, Final Exam 80"))
@@ -212,6 +238,31 @@ class ProgressReportTests(BaseCase):
         self.assertIn("No marks yet", report)
         self.assertIn("0/0 | 0%", report)
         self.assertIn("No course enrolments yet", report)
+
+
+class StorageTests(BaseCase):
+    def test_failed_load_blocks_save_and_preserves_invalid_file(self):
+        invalid_files = (
+            '{"courses": [], "students": [{"student_id": "S001", "name": "Ava", "age": "abc"}]}',
+            '{"courses": [{"code": "T100", "title": "Test", "components": [{"id": "c1", '
+            '"name": "Exam", "weight": 100, "max_marks": 100}]}], "students": [{"student_id": '
+            '"S001", "name": "Ava", "age": 18, "enrollments": [{"course_code": "T100", '
+            '"scores": {"c1": "abc"}}]}]}',
+        )
+
+        for original in invalid_files:
+            with self.subTest(data=original):
+                self.path.write_text(original, encoding="utf-8")
+                with self.assertRaises(StorageError):
+                    self.mgr.load()
+                with self.assertRaises(StorageError):
+                    self.mgr.save()
+
+                self.assertEqual(self.path.read_text(encoding="utf-8"), original)
+
+        self.path.write_text('{"courses": [], "students": []}', encoding="utf-8")
+        self.mgr.load()
+        self.mgr.save()
 
 
 if __name__ == "__main__":

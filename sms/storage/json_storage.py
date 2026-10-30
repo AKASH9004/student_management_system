@@ -7,7 +7,7 @@ import tempfile
 from pathlib import Path
 from typing import Iterable, List, Tuple, Union
 
-from sms.exceptions import StorageError
+from sms.exceptions import StorageError, ValidationError
 from sms.models.course import Course
 from sms.models.student import Student
 
@@ -64,5 +64,6 @@ class JSONStorage:
             students = [Student.from_dict(s, lookup) for s in data.get("students", [])]
             return courses, students
         # Cover unreadable files, invalid JSON and missing or wrongly-typed fields.
-        except (OSError, json.JSONDecodeError, KeyError, TypeError, AttributeError) as exc:
+        except (OSError, ValueError, OverflowError, KeyError, TypeError, AttributeError,
+                ValidationError) as exc:
             raise StorageError(f"Could not load data from {self.file_path}: {exc}") from exc

@@ -34,7 +34,7 @@ def render_progress_report(student: Student) -> str:
         for enrollment, component in assessments
     )
     completion = round(marked_count / len(assessments) * 100) if assessments else 0
-    overall_result = f"{student.percentage:.1f}%" if student.has_marks else "No marks yet"
+    overall_result = f"{student.percentage:.2f}%" if student.has_marks else "No marks yet"
     overall_grade = student.grade
     overall_status = "PASS" if student.has_passed else (
         "FAIL" if student.has_marks else "NOT GRADED"
@@ -60,7 +60,7 @@ def render_progress_report(student: Student) -> str:
         if not rows:
             rows.append('<tr><td class="empty" colspan="5">No assessments configured.</td></tr>')
 
-        course_result = f"{enrollment.standing:.1f}%" if enrollment.has_marks else "No marks yet"
+        course_result = f"{enrollment.standing:.2f}%" if enrollment.has_marks else "No marks yet"
         course_grade = enrollment.grade
         progress = enrollment.progress
         # Course details are grouped into separate sections for easier screen

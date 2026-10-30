@@ -168,7 +168,7 @@ class CoursesPage(Page):
             # Highlight a failing result, but only once something has been marked.
             tags = () if not e.has_marks else (("fail",) if not e.has_passed else ())
             rows.append((s.student_id, (s.student_id, s.name,
-                                        f"{e.progress:.0f}%", f"{e.standing:.1f}%" if e.has_marks else "-",
+                                        f"{e.progress:.0f}%", f"{e.standing:.2f}%" if e.has_marks else "-",
                                         e.grade), tags))
             if e.has_marks:
                 marked.append(e)
@@ -177,7 +177,7 @@ class CoursesPage(Page):
         if marked:
             avg = sum(e.standing for e in marked) / len(marked)
             passed = sum(1 for e in marked if e.has_passed)
-            self.stats_var.set(f"{len(students)} enrolled  |  average {avg:.1f}%  |  {passed}/{len(marked)} passing")
+            self.stats_var.set(f"{len(students)} enrolled  |  average {avg:.2f}%  |  {passed}/{len(marked)} passing")
         else:
             self.stats_var.set(f"{len(students)} enrolled  |  no marks entered yet")
 
